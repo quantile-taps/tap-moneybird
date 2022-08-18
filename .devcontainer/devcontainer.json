@@ -1,0 +1,61 @@
+{
+  "name": "tap-moneybird",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "vscode",
+  "shutdownAction": "stopCompose",
+  "extensions": [
+    "ms-python.vscode-pylance",
+    "njpwerner.autodocstring",
+    "github.copilot",
+    "zhuangtongfa.material-theme",
+    "bungcip.better-toml",
+    "hashicorp.terraform",
+    "ms-vscode.azure-account",
+    "ms-azuretools.vscode-azureresourcegroups",
+    "ms-azuretools.vscode-azurestorage",
+    "redhat.vscode-yaml",
+    "4ops.terraform"
+  ],
+  "workspaceFolder": "/tap-moneybird",
+  "postCreateCommand": "poetry install",
+  "settings": {
+    "python.linting.ignorePatterns": ["**/site-packages/**/*.py"],
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/.pytest_cache": true,
+      "**/__pycache__": true,
+      "**/node_modules": true,
+      ".ipynb_checkpoints": true,
+      "**.egg-info": true,
+      "**/build": true,
+      "dist": true,
+      "dask-worker-space": true,
+      "**/__init__.py": true,
+      ".venv": true,
+      ".docker": true
+    },
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.fontSize": 15,
+    "terminal.integrated.fontFamily": "Cascadia Mono",
+    "editor.autoClosingQuotes": "never",
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.testing.autoTestDiscoverOnSaveEnabled": true,
+    "workbench.colorTheme": "One Dark Pro",
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": ["--line-length", "110", "-S", "--fast"],
+    "python.sortImports.args": ["--profile", "black"],
+    "[python]": {
+      "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+      }
+    }
+  }
+}

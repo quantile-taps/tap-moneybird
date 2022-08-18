@@ -1,0 +1,8 @@
+services:
+  vscode:
+    build:
+      context: .
+      dockerfile: vscode.Dockerfile
+    tty: true
+    volumes:
+      - ..:/tap-moneybird:cached
