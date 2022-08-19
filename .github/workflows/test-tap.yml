@@ -35,5 +35,5 @@ jobs:
       - name: Run pytests
         run: poetry run pytest meltano
         env:
-          MONEYBIRD_AUTH_TOKEN: ${{MONEYBIRD_AUTH_TOKEN}}
-          MONEYBIRD_ADMINSTRATION_ID: ${{MONEYBIRD_ADMINSTRATION_ID}}
+          MONEYBIRD_AUTH_TOKEN: ${{ secrets.MONEYBIRD_AUTH_TOKEN}}
+          MONEYBIRD_ADMINSTRATION_ID: ${{ secrets.MONEYBIRD_ADMINSTRATION_ID}}
