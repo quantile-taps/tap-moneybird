@@ -1,3 +1,7 @@
+x-common-variables: &common-variables
+    MONEYBIRD_AUTH_TOKEN: ${MONEYBIRD_AUTH_TOKEN}  
+    MONEYBIRD_ADMINSTRATION_ID: ${MONEYBIRD_ADMINSTRATION_ID}
+
 services:
   vscode:
     build:
@@ -6,3 +10,5 @@ services:
     tty: true
     volumes:
       - ..:/tap-moneybird:cached
+    environment:
+      <<: *common-variables
