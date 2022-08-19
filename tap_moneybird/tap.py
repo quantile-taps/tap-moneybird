@@ -37,7 +37,7 @@ class TapMoneyBird(Tap):
         ),
         th.Property(
             "administration_id",
-            th.IntegerType,
+            th.StringType,
             required=True,
             description="The ID of the MoneyBird administration to connect to."
         ),
