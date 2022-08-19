@@ -32,8 +32,8 @@ jobs:
       - name: Configure poetry
         run: poetry install --no-interaction
 
-      - name: Run pytests
-        run: poetry run pytest meltano
+      - name: Run pytest
+        run: poetry run pytest
         env:
           MONEYBIRD_AUTH_TOKEN: ${{ secrets.MONEYBIRD_AUTH_TOKEN}}
           MONEYBIRD_ADMINSTRATION_ID: ${{ secrets.MONEYBIRD_ADMINSTRATION_ID}}
