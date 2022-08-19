@@ -26,7 +26,6 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .venv
-          # TODO: wat betekent dit precies?
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Configure poetry
