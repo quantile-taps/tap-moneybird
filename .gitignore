@@ -177,3 +177,6 @@ terraform.rc
 
 # Sqlite
 *.sqlite
+
+# Meltano
+*.meltano
