@@ -2,14 +2,17 @@ version: 1
 project_id: "tap-moneybird"
 plugins:
   extractors:
-  - name: "tap-moneybird"
-    namespace: "tap_moneybird"
-    pip_url: -e .
-    capabilities:
-    - state
-    - catalog
-    - discover
+    - name: "tap-moneybird"
+      namespace: "tap_moneybird"
+      pip_url: -e .
+      capabilities:
+        - state
+        - catalog
+        - discover
+      config:
+        auth_token: ${MONEYBIRD_AUTH_TOKEN}
+        administration_id: ${MONEYBIRD_ADMINSTRATION_ID}
   loaders:
-  - name: target-jsonl
-    variant: andyh1203
-    pip_url: target-jsonl
+    - name: target-jsonl
+      variant: andyh1203
+      pip_url: target-jsonl
