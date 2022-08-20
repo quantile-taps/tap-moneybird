@@ -1,14 +1,11 @@
 """REST client handling, including MoneyBirdStream base class."""
 
-import logging
-from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Union
+import re
+from typing import Any, Dict, Optional
 from urllib.parse import parse_qs, urlparse
 
 import requests
-from memoization import cached
 from singer_sdk.authenticators import BearerTokenAuthenticator
-from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.streams import RESTStream
 
 
@@ -30,32 +27,42 @@ class MoneyBirdStream(RESTStream):
             token=self.config.get("auth_token")
         )
 
-    def next_page_link_not_in_header(self, response: requests.Response) -> bool:
-        """Return True if there is no `next page link` in the response header."""
-        # The `Link` key does not exist in the response header object.
-        if "Link" not in response.headers:
-            return True
-        else: 
-            # The value of the `Link` response header does not contain a `next` link.
-            return "next" not in response.headers["Link"]
-
-    def get_next_page_token(
-        self, response: requests.Response, previous_token: Optional[Any]
-    ) -> Optional[Any]:
+    def get_next_page_token(self, response: requests.Response, previous_token: Optional[Any]) -> Optional[Any]:
         """Return a token for identifying next page or None if no more pages."""
 
-        # logging.info(response.headers['Link'])
-
-        if self.next_page_link_not_in_header(response):
+        # If there is no next page, return None.
+        if self.no_next_page(response):
             return None
-        else:
-            # Grab the first occurring link URL from the header.
-            link_next_page = response.headers["Link"].split(';')[0].strip('<>')
 
-            # Parse the URL to get the page number.
-            next_page_token = parse_qs(urlparse(link_next_page).query)["page"][0]
-
+        # Get the next page number from the `Link` header.
+        next_page_token = self.get_next_page_number(response.headers["Link"])
+        
         return next_page_token
+
+    def no_next_page(self, response: requests.Response) -> bool:
+        """Returns True if there is no next page."""
+        try:
+            # If there is no next page, the `Link` header will not contain a `rel="next"` link.
+            return "next" not in response.headers["Link"]
+
+        # If the `Link` key does not exist, return True.
+        except KeyError:
+            return True
+
+    def get_next_page_number(self, link_header: str) -> str:
+        """Returns the next page number from the `Link` header."""
+        
+        # Use regex to extract the first URL from the link_header
+        next_page_url = re.search(r"<(.*?)>", link_header).group(1)
+
+        # Parse the URL to get the page number.
+        parsed_url = urlparse(next_page_url)
+
+        # Get the page number from the parsed URL.
+        next_page_number = parse_qs(parsed_url.query)["page"][0]
+
+        return next_page_number
+
 
     def get_url_params(
         self, context: Optional[dict], next_page_token: Optional[Any]
