@@ -6,7 +6,6 @@
   "extensions": [
     "ms-python.vscode-pylance",
     "njpwerner.autodocstring",
-    "github.copilot",
     "zhuangtongfa.material-theme",
     "bungcip.better-toml",
     "hashicorp.terraform",
