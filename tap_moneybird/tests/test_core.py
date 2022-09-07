@@ -2,13 +2,15 @@
 
 import os
 
+import pendulum
 from singer_sdk.testing import get_standard_tap_tests
 
 from tap_moneybird.tap import TapMoneyBird
 
 SAMPLE_CONFIG = {
     "auth_token": os.environ["MONEYBIRD_AUTH_TOKEN"], 
-    "administration_id": os.environ["MONEYBIRD_ADMINSTRATION_ID"], 
+    "administration_id": os.environ["MONEYBIRD_ADMINSTRATION_ID"],
+    "start_date": os.environ.get("START_DATE", pendulum.today().to_date_string()),
 }
 
 

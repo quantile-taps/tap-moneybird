@@ -1,5 +1,4 @@
 """REST client handling, including MoneyBirdStream base class."""
-import logging
 import re
 from typing import Any, Dict, Optional
 from urllib.parse import parse_qs, urlparse
