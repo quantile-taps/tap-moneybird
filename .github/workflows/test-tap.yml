@@ -32,7 +32,7 @@ jobs:
         run: poetry install --no-interaction
 
       - name: Set current date as env variable
-        run: echo "START_DATE::$(date +'%Y-%m-%d' -d)" >> $GITHUB_ENV
+        run: echo "START_DATE::$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Run pytest
         run: poetry run pytest
