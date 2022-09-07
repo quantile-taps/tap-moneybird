@@ -44,7 +44,8 @@ class TapMoneyBird(Tap):
         th.Property(
             "start_date",
             th.DateTimeType,
-            description="The earliest record date to sync."
+            required=True,
+            description="The earliest record date to sync.",
         ),
     ).to_dict()
 

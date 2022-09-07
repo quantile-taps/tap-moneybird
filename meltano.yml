@@ -1,4 +1,5 @@
 version: 1
+default_environment: dev
 project_id: "tap-moneybird"
 plugins:
   extractors:
@@ -12,7 +13,11 @@ plugins:
       config:
         auth_token: ${MONEYBIRD_AUTH_TOKEN}
         administration_id: ${MONEYBIRD_ADMINSTRATION_ID}
+        start_date: "2021-01-01"
   loaders:
     - name: target-jsonl
       variant: andyh1203
       pip_url: target-jsonl
+
+environments:
+  - name: dev
