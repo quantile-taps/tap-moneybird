@@ -8,13 +8,11 @@ class ContactsStream(MoneyBirdStream):
     """Extracts contacts from MoneyBird."""
     name = "contacts"
     path = "/contacts.json"
-
     primary_keys = ["id"]
-    replication_key = "updated_at"
 
     schema = th.PropertiesList(
         th.Property("id", th.StringType),
-        th.Property("administration_id", th.IntegerType),
+        th.Property("administration_id", th.StringType),
         th.Property("company_name", th.StringType),
         th.Property("firstname", th.StringType),
         th.Property("lastname", th.StringType),
@@ -25,13 +23,11 @@ class LedgerAccountsStream(MoneyBirdStream):
     """Extracts ledger accounts from MoneyBird."""
     name = "ledger_accounts"
     path = "/ledger_accounts.json"
-
     primary_keys = ["id"]
-    replication_key = "updated_at"
 
     schema = th.PropertiesList(
         th.Property("id", th.StringType),
-        th.Property("administration_id", th.IntegerType),
+        th.Property("administration_id", th.StringType),
         th.Property("name", th.StringType),
         th.Property("account_type", th.StringType),
         th.Property("account_id", th.StringType),
@@ -44,13 +40,11 @@ class ReceiptsStream(MoneyBirdStream):
     """Extracts contacts from MoneyBird."""
     name = "receipts"
     path = "/documents/receipts.json"
-
     primary_keys = ["id"]
-    replication_key = "updated_at"
 
     schema = th.PropertiesList(
         th.Property("id", th.StringType),
-        th.Property("administration_id", th.IntegerType),
+        th.Property("administration_id", th.StringType),
         th.Property("contact_id", th.StringType),
         th.Property("reference", th.StringType),
         th.Property("date", th.DateTimeType),
@@ -77,13 +71,11 @@ class PurchaseInvoicesStream(MoneyBirdStream):
     """Extracts purchase invoices from MoneyBird."""
     name = "purchase_invoices"
     path = "/documents/purchase_invoices.json"
-
     primary_keys = ["id"]
-    replication_key = "updated_at"
 
     schema = th.PropertiesList(
         th.Property("id", th.StringType),
-        th.Property("administration_id", th.IntegerType),
+        th.Property("administration_id", th.StringType),
         th.Property("contact_id", th.StringType),
         th.Property("invoice_id", th.StringType),
         th.Property("reference", th.StringType),
@@ -107,13 +99,11 @@ class SalesInvoicesStream(MoneyBirdStream):
     """Extracts sales invoices from MoneyBird."""
     name = "sales_invoices"
     path = "/sales_invoices.json"
-
     primary_keys = ["id"]
-    replication_key = "updated_at"
 
     schema = th.PropertiesList(
         th.Property("id", th.StringType),
-        th.Property("administration_id", th.IntegerType),
+        th.Property("administration_id", th.StringType),
         th.Property("contact_id", th.StringType),
         th.Property("invoice_id", th.StringType),
         th.Property("state", th.StringType),
@@ -143,15 +133,17 @@ class ExternalSalesInvoicesStream(MoneyBirdStream):
     """Extracts external sales invoices from MoneyBird."""
     name = "external_sales_invoices"
     path = "/external_sales_invoices.json"
-
     primary_keys = ["id"]
-    replication_key = "updated_at"
 
     schema = th.PropertiesList(
         th.Property("id", th.StringType),
-        th.Property("administration_id", th.IntegerType),
+        th.Property("administration_id", th.StringType),
         th.Property("contact_id", th.StringType),
-        th.Property("contact", th.StringType),
+        th.Property("contact", th.PropertiesList(
+            th.Property("company_name", th.StringType),
+            th.Property("firstname", th.StringType),
+            th.Property("lastname", th.StringType),
+        )),
         th.Property("date", th.DateTimeType),
         th.Property("state", th.StringType),
         th.Property("due_date", th.StringType),

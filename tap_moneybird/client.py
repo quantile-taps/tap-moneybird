@@ -77,8 +77,8 @@ class MoneyBirdStream(RESTStream):
         self, context: Optional[dict], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
-        # params: dict = {'filter': f'period:{self.start_date}..{self.today}'}
-        params: dict = {'filter': f'period:{self.start_date}..202112'}
+
+        params: dict = {'filter': f'period:{self.start_date}..{self.today}'}
         
         if next_page_token:
             params["page"] = next_page_token
@@ -87,6 +87,5 @@ class MoneyBirdStream(RESTStream):
             params["sort"] = "asc"
             params["order_by"] = self.replication_key
 
-        logging.info(self.get_starting_timestamp(context))
 
         return params

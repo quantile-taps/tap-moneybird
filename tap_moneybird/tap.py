@@ -15,12 +15,12 @@ from tap_moneybird.streams import (
 )
 
 STREAM_TYPES = [
-    # ContactsStream, 
+    ContactsStream, 
     ExternalSalesInvoicesStream,
-    # PurchaseInvoicesStream,
-    # ReceiptsStream,
-    # SalesInvoicesStream, 
-    # LedgerAccountsStream,
+    PurchaseInvoicesStream,
+    ReceiptsStream,
+    SalesInvoicesStream, 
+    LedgerAccountsStream,
 ]
 
 
