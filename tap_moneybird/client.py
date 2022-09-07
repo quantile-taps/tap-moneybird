@@ -1,9 +1,10 @@
 """REST client handling, including MoneyBirdStream base class."""
-
+import logging
 import re
 from typing import Any, Dict, Optional
 from urllib.parse import parse_qs, urlparse
 
+import pendulum
 import requests
 from singer_sdk.authenticators import BearerTokenAuthenticator
 from singer_sdk.streams import RESTStream
@@ -18,6 +19,15 @@ class MoneyBirdStream(RESTStream):
         return f"https://moneybird.com/api/v2/{self.config.get('administration_id')}"
 
     records_jsonpath = "$[*]"  # Or override `parse_response`.
+
+    @property
+    def start_date(self) -> str:
+        start_date = pendulum.parse(self.config.get('start_date'))
+        return start_date.format('YYYYMM')
+
+    @property
+    def today(self) -> str:
+        return pendulum.today().format("YYYYMM")
 
     @property
     def authenticator(self) -> BearerTokenAuthenticator:
@@ -51,7 +61,6 @@ class MoneyBirdStream(RESTStream):
 
     def get_next_page_number(self, link_header: str) -> str:
         """Returns the next page number from the `Link` header."""
-        
         # Use regex to extract the first URL from the link_header
         next_page_url = re.search(r"<(.*?)>", link_header).group(1)
 
@@ -68,11 +77,15 @@ class MoneyBirdStream(RESTStream):
         self, context: Optional[dict], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
-        params: dict = {}
+
+        params: dict = {'filter': f'period:{self.start_date}..{self.today}'}
+        
         if next_page_token:
             params["page"] = next_page_token
+        
         if self.replication_key:
             params["sort"] = "asc"
             params["order_by"] = self.replication_key
-        return params
 
+
+        return params
