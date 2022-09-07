@@ -87,7 +87,6 @@ class MoneyBirdStream(RESTStream):
             params["sort"] = "asc"
             params["order_by"] = self.replication_key
 
-        logging.info('BANAAN')
         logging.info(self.get_starting_timestamp(context))
 
         return params
