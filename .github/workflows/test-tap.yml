@@ -31,15 +31,9 @@ jobs:
       - name: Configure poetry
         run: poetry install --no-interaction
 
-      - name: Set start date
-        run: echo "START_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-
-      - name: Show start date
-        run: echo $START_DATE
-
       - name: Run pytest
         run: poetry run pytest
         env:
           MONEYBIRD_AUTH_TOKEN: ${{ secrets.MONEYBIRD_AUTH_TOKEN}}
           MONEYBIRD_ADMINSTRATION_ID: ${{ secrets.MONEYBIRD_ADMINSTRATION_ID}}
-          START_DATE: $START_DATE
+          START_DATE: "2022-01-01"
