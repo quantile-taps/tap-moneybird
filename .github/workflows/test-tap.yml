@@ -31,8 +31,12 @@ jobs:
       - name: Configure poetry
         run: poetry install --no-interaction
 
+      - name: Set current date as env variable
+        run: echo "TODAY::$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Run pytest
         run: poetry run pytest
         env:
           MONEYBIRD_AUTH_TOKEN: ${{ secrets.MONEYBIRD_AUTH_TOKEN}}
           MONEYBIRD_ADMINSTRATION_ID: ${{ secrets.MONEYBIRD_ADMINSTRATION_ID}}
+          START_DATE: $TODAY
