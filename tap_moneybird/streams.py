@@ -53,19 +53,28 @@ class ReceiptsStream(MoneyBirdStream):
         th.Property("state", th.StringType),
         th.Property("currency", th.StringType),
         th.Property("exchange_rate", th.StringType),
-        th.Property("revenue_invoice", th.StringType),
+        th.Property("revenue_invoice", th.BooleanType),
         th.Property("prices_are_incl_tax", th.BooleanType),
         th.Property("origin", th.StringType),
         th.Property("paid_at", th.StringType),
         th.Property("tax_number", th.StringType),
-        th.Property("total_price_excl_tax", th.StringType),
-        th.Property("total_price_excl_tax_base", th.StringType),
-        th.Property("total_price_incl_tax", th.StringType),
-        th.Property("total_price_incl_tax_base", th.StringType),
+        th.Property("total_price_excl_tax", th.NumberType),
+        th.Property("total_price_excl_tax_base", th.NumberType),
+        th.Property("total_price_incl_tax", th.NumberType),
+        th.Property("total_price_incl_tax_base", th.NumberType),
         th.Property("created_at", th.DateTimeType),
         th.Property("updated_at", th.DateTimeType),
         th.Property("version", th.IntegerType),
     ).to_dict()
+
+    def post_process(self, row: dict, context: dict = None) -> dict:
+        return {
+            **row,
+            "total_price_excl_tax": float(row["total_price_excl_tax"]),
+            "total_price_excl_tax_base": float(row["total_price_excl_tax_base"]),
+            "total_price_incl_tax": float(row["total_price_incl_tax"]),
+            "total_price_incl_tax_base": float(row["total_price_incl_tax_base"]),
+        }
 
 class PurchaseInvoicesStream(MoneyBirdStream):
     """Extracts purchase invoices from MoneyBird."""
@@ -89,11 +98,18 @@ class PurchaseInvoicesStream(MoneyBirdStream):
         th.Property("prices_are_incl_tax", th.BooleanType),
         th.Property("origin", th.StringType),
         th.Property("paid_at", th.StringType),
-        th.Property("total_price_excl_tax", th.StringType),
-        th.Property("total_price_incl_tax", th.StringType),
+        th.Property("total_price_excl_tax", th.NumberType),
+        th.Property("total_price_incl_tax", th.NumberType),
         th.Property("created_at", th.DateTimeType),
         th.Property("updated_at", th.DateTimeType),
     ).to_dict()
+
+    def post_process(self, row: dict, context: dict = None) -> dict:
+        return {
+            **row,
+            "total_price_excl_tax": float(row["total_price_excl_tax"]),
+            "total_price_incl_tax": float(row["total_price_incl_tax"]),
+        }
 
 class SalesInvoicesStream(MoneyBirdStream):
     """Extracts sales invoices from MoneyBird."""
@@ -115,19 +131,26 @@ class SalesInvoicesStream(MoneyBirdStream):
         th.Property("currency", th.StringType),
         th.Property("discount", th.StringType),
         th.Property("original_sales_invoice_id", th.StringType),
-        th.Property("paused", th.StringType),
+        th.Property("paused", th.BooleanType),
         th.Property("paid_at", th.StringType),
         th.Property("created_at", th.StringType),
         th.Property("updated_at", th.DateTimeType),
         th.Property("total_paid", th.StringType),
         th.Property("total_unpaid", th.StringType),
         th.Property("prices_are_incl_tax", th.BooleanType),
-        th.Property("total_price_excl_tax", th.StringType),
-        th.Property("total_price_incl_tax", th.StringType),
+        th.Property("total_price_excl_tax", th.NumberType),
+        th.Property("total_price_incl_tax", th.NumberType),
         th.Property("total_discount", th.StringType),
         th.Property("marked_dubious_on", th.StringType),
         th.Property("marked_uncollectible_on", th.StringType),
     ).to_dict()
+
+    def post_process(self, row: dict, context: dict = None) -> dict:
+        return {
+            **row,
+            "total_price_excl_tax": float(row["total_price_excl_tax"]),
+            "total_price_incl_tax": float(row["total_price_incl_tax"]),
+        }
 
 class ExternalSalesInvoicesStream(MoneyBirdStream):
     """Extracts external sales invoices from MoneyBird."""
@@ -159,8 +182,15 @@ class ExternalSalesInvoicesStream(MoneyBirdStream):
         th.Property("total_paid", th.StringType),
         th.Property("total_unpaid", th.StringType),
         th.Property("prices_are_incl_tax", th.BooleanType),
-        th.Property("total_price_excl_tax", th.StringType),
-        th.Property("total_price_incl_tax", th.StringType),
+        th.Property("total_price_excl_tax", th.NumberType),
+        th.Property("total_price_incl_tax", th.NumberType),
         th.Property("marked_dubious_on", th.StringType),
         th.Property("marked_uncollectible_on", th.StringType),
     ).to_dict()
+
+    def post_process(self, row: dict, context: dict = None) -> dict:
+        return {
+            **row,
+            "total_price_excl_tax": float(row["total_price_excl_tax"]),
+            "total_price_incl_tax": float(row["total_price_incl_tax"]),
+        }
