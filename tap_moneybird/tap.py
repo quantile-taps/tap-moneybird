@@ -15,17 +15,18 @@ from tap_moneybird.streams import (
 )
 
 STREAM_TYPES = [
-    ContactsStream, 
+    ContactsStream,
     ExternalSalesInvoicesStream,
     PurchaseInvoicesStream,
     ReceiptsStream,
-    SalesInvoicesStream, 
+    SalesInvoicesStream,
     LedgerAccountsStream,
 ]
 
 
 class TapMoneyBird(Tap):
     """MoneyBird tap class."""
+
     name = "tap-moneybird"
 
     config_jsonschema = th.PropertiesList(
@@ -33,13 +34,13 @@ class TapMoneyBird(Tap):
             "auth_token",
             th.StringType,
             required=True,
-            description="The token to authenticate against the MoneyBird API service."
+            description="The token to authenticate against the MoneyBird API service.",
         ),
         th.Property(
             "administration_id",
             th.StringType,
             required=True,
-            description="The ID of the MoneyBird administration to connect to."
+            description="The ID of the MoneyBird administration to connect to.",
         ),
         th.Property(
             "start_date",
@@ -52,4 +53,3 @@ class TapMoneyBird(Tap):
     def discover_streams(self) -> List[Stream]:
         """Return a list of discovered streams."""
         return [stream_class(tap=self) for stream_class in STREAM_TYPES]
-
